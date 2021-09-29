@@ -1,10 +1,9 @@
-name: Deploy Review
+name: Deploy Production
 
 on:
   push:
-    branches:
-      - main
-      - "2"
+    tags:
+      - 'v*'
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -15,8 +14,8 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@master
       with:
-        project_id: ${{ secrets.REVIEW_GCP_PROJECT_ID }}
-        service_account_key: ${{ secrets.REVIEW_SERVICE_ACCOUNT_JSON }}
+        project_id: ${{ secrets.PRODUCTION_GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.PRODUCTION_SERVICE_ACCOUNT_JSON }}
         export_default_credentials: true
     - name: Use gcloud CLI
       run: |

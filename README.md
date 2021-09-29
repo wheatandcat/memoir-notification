@@ -30,8 +30,14 @@ $ gcloud tasks queues describe sendNotification
 
 ## CI環境
 
+### レビュー環境
+
 ```
 $ base64 -i serviceAccount.review.json | pbcopy
 ```
 
+### 本番環境
 
+```
+$ base64 -i serviceAccount.production.json | pbcopy
+```
