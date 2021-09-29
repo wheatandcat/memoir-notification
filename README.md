@@ -27,3 +27,11 @@ $ gcloud tasks queues update sendNotification --max-attempts 6 --min-backoff 5s 
 ```
 $ gcloud tasks queues describe sendNotification
 ```
+
+## CI環境
+
+```
+$ base64 -i serviceAccount.review.json | pbcopy
+```
+
+
