@@ -3,10 +3,13 @@
 Push通知を送信する
 
 
-## デプロイ
+## 本番デプロイ
 
 ```
-$ gcloud functions deploy SendNotification --runtime go113 --trigger-http --region asia-northeast1
+$ git checkout main
+$ git pull --ff-only origin main
+$ git tag -a v1.0.0 -m 'リリース内容'
+$ git push origin v1.0.0
 ```
 
 
@@ -26,4 +29,18 @@ $ gcloud tasks queues update sendNotification --max-attempts 6 --min-backoff 5s 
 
 ```
 $ gcloud tasks queues describe sendNotification
+```
+
+## CI環境
+
+### レビュー環境
+
+```
+$ base64 -i serviceAccount.review.json | pbcopy
+```
+
+### 本番環境
+
+```
+$ base64 -i serviceAccount.production.json | pbcopy
 ```
