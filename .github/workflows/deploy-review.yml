@@ -19,5 +19,5 @@ jobs:
         export_default_credentials: true
     - name: Use gcloud CLI
       run: |
-        gcloud functions deploy SendNotification --runtime go113 --trigger-http --region asia-northeast1
+        gcloud functions deploy SendNotification --runtime go113 --trigger-http --region asia-northeast1 --allow-unauthenticated
         
