@@ -9,15 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        project_id: ${{ secrets.REVIEW_GCP_PROJECT_ID }}
-        service_account_key: ${{ secrets.REVIEW_SERVICE_ACCOUNT_JSON }}
-        export_default_credentials: true
-    - name: Use gcloud CLI
-      run: |
-        gcloud functions deploy SendNotification --runtime go113 --trigger-http --region asia-northeast1 --allow-unauthenticated
-        
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.REVIEW_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: github-actions@${{ secrets.REVIEW_GCP_PROJECT_ID }}.iam.gserviceaccount.com
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+      - name: Use gcloud CLI
+        run: |
+          gcloud functions deploy SendNotification2 --gen2 --runtime go123 --trigger-http --region=asia-northeast1 --allow-unauthenticated

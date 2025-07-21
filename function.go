@@ -2,7 +2,9 @@ package memoirnotification
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strings"
 
 	expo "github.com/oliveroneill/exponent-server-sdk-golang/sdk"
 )
@@ -14,13 +16,14 @@ type NotificationRequest struct {
 	URLScheme string   `json:"urlScheme"`
 }
 
-func SendNotification(w http.ResponseWriter, r *http.Request) {
+func SendNotification2(w http.ResponseWriter, r *http.Request) {
 	param := NotificationRequest{}
 
 	if err := json.NewDecoder(r.Body).Decode(&param); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	fmt.Printf("params: %s\n", strings.Join(param.Token, ","))
 
 	to := []expo.ExponentPushToken{}
 	for _, token := range param.Token {
