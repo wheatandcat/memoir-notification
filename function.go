@@ -40,21 +40,21 @@ func SendNotification2(w http.ResponseWriter, r *http.Request) {
 
 	client := expo.NewPushClient(nil)
 
-	_, err := client.Publish(
-		&expo.PushMessage{
-			To:       to,
-			Body:     param.Body,
-			Data:     map[string]string{"urlScheme": param.URLScheme},
-			Sound:    "default",
-			Title:    param.Title,
-			Priority: expo.DefaultPriority,
-		},
-	)
-
-	if err != nil {
-		fmt.Println("error3:", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	for _, token := range to {
+		_, err := client.Publish(
+			&expo.PushMessage{
+				To:       []expo.ExponentPushToken{token},
+				Body:     param.Body,
+				Data:     map[string]string{"urlScheme": param.URLScheme},
+				Sound:    "default",
+				Title:    param.Title,
+				Priority: expo.DefaultPriority,
+			},
+		)
+		if err != nil {
+			// 現状複数でPush通知すると「error3: Mismatched response length. Expected * receipts but only received *」のエラーになるので単発で送信する
+			fmt.Println("error3:", err.Error())
+		}
 	}
 
 	w.WriteHeader(http.StatusOK)
