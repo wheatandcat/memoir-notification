@@ -20,6 +20,7 @@ func SendNotification2(w http.ResponseWriter, r *http.Request) {
 	param := NotificationRequest{}
 
 	if err := json.NewDecoder(r.Body).Decode(&param); err != nil {
+		fmt.Println("error1:", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -29,6 +30,7 @@ func SendNotification2(w http.ResponseWriter, r *http.Request) {
 	for _, token := range param.Token {
 		pushToken, err := expo.NewExponentPushToken(token)
 		if err != nil {
+			fmt.Println("error2:", err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -50,6 +52,7 @@ func SendNotification2(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err != nil {
+		fmt.Println("error3:", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
